@@ -79,6 +79,12 @@ Following maven command will be used to run the feature files:
 mvn test -P karate-integration-tests -Dtest=TestParallel -Dproduct.service.base.url=<Actual_URL>
 ```
 
+### Mock
+This project uses karate mock for mocking karate api. .jar file is placed under mock directory. 
+To Start the mock server:
+java -jar karate-0.9.3.jar -m mock.feature -p <portnumber>
+Note: We can use docker while we use this feature in CI
+
 ### Test Reports
 
 This project uses `cucumber-reporting` maven plugin to generate the HTML & JSON reports from the `maven-surefire` xml reports.
@@ -89,10 +95,6 @@ To get these HTML reports in `jenkins` we need to install a jenkins plugin `Cucu
 
 To setup this plugin in `jenkins` following [blog](https://medium.com/faun/karate-cucumber-reports-integration-in-jenkins-3f0e617c8265) can also be looked at.
 
-##KarateMock
-This project uses karate mock for mocking karate api. .jar file is placed under mock directory. 
-To Start the mock server:
-java -jar karate-0.9.3.jar -m mock.feature -p <portnumber>
 
 
 
