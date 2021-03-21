@@ -198,3 +198,10 @@ mock.feature:7 - could not find or read file: /mockResponse/tickerResponse.json
 22:39:13.627 [nioEventLoopGroup-3-7] DEBUG com.intuit.karate - scenario matched: pathMatches('/11') && methodIs('get')
 22:44:07.288 [nioEventLoopGroup-3-8] DEBUG com.intuit.karate - handling method: GET, uri: /11
 22:44:07.289 [nioEventLoopGroup-3-8] DEBUG com.intuit.karate - scenario matched: pathMatches('/11') && methodIs('get')
+23:24:09.650 [main] INFO  com.intuit.karate.Main - Karate version: 0.9.3
+23:24:11.066 [main] INFO  com.intuit.karate - backend initialized
+23:24:12.180 [main] INFO  c.intuit.karate.netty.FeatureServer - server started - http://127.0.0.1:8181
+23:24:18.938 [nioEventLoopGroup-3-1] DEBUG com.intuit.karate - handling method: GET, uri: /I11
+23:24:19.018 [nioEventLoopGroup-3-1] DEBUG com.intuit.karate - scenario skipped: pathMatches('/11') && methodIs('get')
+23:24:19.036 [nioEventLoopGroup-3-1] DEBUG com.intuit.karate - scenario skipped: pathMatches('/13') && methodIs('get')
+23:24:19.055 [nioEventLoopGroup-3-1] DEBUG com.intuit.karate - scenario matched: pathMatches('/I11') && methodIs('get')
