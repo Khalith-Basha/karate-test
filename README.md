@@ -1,7 +1,8 @@
-# karate-tutorial
+# karate-test
 A sample karate test project to showcase API testing using Karate (https://github.com/intuit/karate) framework.
 
 Features:
+* Stubbing API using karate mock
 * Feature calling another features.
 * Utility javascript functions.
 * Re-useable feature files. (Refer to `commons` folder)
@@ -12,45 +13,77 @@ Features:
 * Test HTML reports.
 
 # Getting Started
-We have following 2 REST APIs to test and 1 Websocket:
-
-* **POST /company** - To create a Company
+We have following 2 REST APIs and 1 Websocket endpoint to test:
+Websocket Endpoint : wss://api.staging.neontrading.com
+* **Get /11** - To subscribe the ticker
 ```json
 {
-    "company": "Patanjali",
-    "region": "APAC",
-    "companyRegistrationCode": "eb268a5e-9441-41a6-8974-f84d1914308d"
+  "properties": {
+    "type": {
+      "type": "ticker"
+    },
+    "id": {
+      "type": "DE000BASF111.LSX",
+      "description": "ISIN and exchange shortcode of the ticker"
+    }
+  }
 }
 ```
-* **POST /products** - To create a Product
+* **Get /I11** - To Reretreive Instrument
 ```json
 {
-    "companyId": 12345,
-    "product": "Ashwgandha Powder",
-    "price": 59
+  "properties": {
+    "type": {
+      "type": "instrument"
+    },
+    "id": {
+      "type": "DE000BASF111",
+      "description": "ISIN and exchange shortcode of the ticker"
+    }
+  }
 }
-```
-* **DELETE /products/{productId}** - To delete a Product
 
-The feature files are inside `src/test/resources` folder as this is the default classpath location for non-java files in spring boot application.
+The feature files are inside `src/test/java/features` folder as this is the default classpath location.
 
-We have a feature file `products.feature` which has 2 scenarios, first one is to create a company, add a product and remove the same product using aforementioned APIs.
-`products.feature` makes use of the re-useable feature files, `create.company.feature`, `create.product.featrue` and `remove.product.feature` (These feature files are kept inside `commons` folder).
+We have a feature file `trading.feature` which has 4 scenarios, first one is to authenticate websocket gateway and subscribe the request - 
+`sub <subId> <payload>` and then for ticket subscribtion rest api
 
-Second scenario is just there to showcase how a file can be read, processed & written back using a Java method defined 
-inside `TestUtils.java`, this java method is being called from a javascript function defined inside `karate-config.js`.
+Second scenario is to authenticate websocket gateway and subscribe the request - `sub <subId> <payload>` and then and Retrieve details about a single instrument.
 
-Feature files are decorated with comments to explain the intentions.
+1.Trading.feature - We are defining all the inputs required for the websocket and rest api calls ( include json schema files for each api)
+ def companyArgs = { wssocket : 'connect 21', type_p: 'wss', jsonpayload:'../testdata/device.json', subid: '14', typeReq: '{ "type": "ticker", "id": "DE000BASF111.LSX" }', wsschema:'subscriptionschema', path:'11', restschema:'ticketjsonschema' }
+ Then weare calling commonstepDef.feature ( which is common for all the api)
+
+`CommonStepDef.feature  (This feature file is kept inside common folder).
+This feature file following actions are performed.
+1. Reretreive baseurl from karate-config.js file
+2. Authentication to websocket with Device details ( This device details is placed as jsonfile in testdata/device.json)
+3. Validate connection request is connected or not
+4. Subribe to ticker. for example:  `sub 13 {  "type": "ticker", "id": "DE000BASF111.LSX" }`
+5. Validate we are not receiving Error in the response
+6. RestAPI request call - Mock endpoint
+7. Validate the response from json schema
+Please note, these steps are common for all 4 scenarios. 
+
+inside `TestUtils.java`, this java method is being called to validate the json schema
+
+`karate-config.js`- config file. Based on environment, url it will set the endpoint. if we are not setting the env then by default it will connect to mock server. 
+
 
 **Note:** This project makes use of karate parallel execution scemantics which is being defined inside `TestParallel.java`
 
-The feature files can be executed using a maven profile `karate-integration-tests`. See `pom.xml` for actual profile definition.
 
 Following maven command will be used to run the feature files:
 
 ```shell script
 mvn test -P karate-integration-tests -Dtest=TestParallel -Dproduct.service.base.url=<Actual_URL>
 ```
+
+### Mock
+This project uses karate mock for mocking karate api. .jar file is placed under mock directory. 
+To Start the mock server:
+java -jar karate-0.9.3.jar -m mock.feature -p <portnumber>
+Note: We can use docker while we use this feature in CI
 
 ### Test Reports
 
@@ -62,45 +95,11 @@ To get these HTML reports in `jenkins` we need to install a jenkins plugin `Cucu
 
 To setup this plugin in `jenkins` following [blog](https://medium.com/faun/karate-cucumber-reports-integration-in-jenkins-3f0e617c8265) can also be looked at.
 
-### Tips
 
-* Conditionally calling a feature file:
-``` 
-* def shouldCallAnotherFeature = <someVariable/expression> ? true : false
-* def anotherFeatureArgs = { param1: '#(param1)', param2: '#(param2)' }
-* def anotherFeatureResult = shouldCallAnotherFeature ? karate.call('another.feature', anotherFeatureArgs) : 'No need to call another feature'
-```
 
-* Check contains using javascript function:
-```
-* def isMatched = function(a, b) { return a.indexOf(b) !== -1 }
-* def result = isMatched('The beautiful mind', 'beautiful')
-* print result
-```
 
-* Switch to appropriate defaults at the start of feature:
-```
-* def count = __arg.count ? __arg.count : 0
-* def name = __arg.name ? __arg.name : 'NA'
-```
 
-* Javascript function to parse dynamic keys/properties names:
-```
-function getKeys(response) {
-    for (key in response) {
-        console.log('Key: ' + key + ', Value: ' + response[key]);
-    }
-}
-```
-We might encounter JSON where keys/properties names can be any id (uuid), number etc.. In those cases we can use above function to get those key names and get the respective key value. 
 
-Example JSON:
-```
-{
-	'e162b50e-7f0d-4d4c-8c75-8bbcaa51bafc': 'testValue',
-	'9cbc301d-f320-48b7-b837-95eecb5f89cf': 'testValue'
-}
-```
 
 
 
