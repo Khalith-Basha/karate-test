@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "bid": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "integer"
+        },
+        "price": {
+          "type": "number"
+        },
+        "size": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "time",
+        "price",
+        "size"
+      ]
+    },
+    "ask": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "integer"
+        },
+        "price": {
+          "type": "number"
+        },
+        "size": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "time",
+        "price",
+        "size"
+      ]
+    },
+    "last": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "integer"
+        },
+        "price": {
+          "type": "number"
+        },
+        "size": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "time",
+        "price",
+        "size"
+      ]
+    },
+    "pre": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "integer"
+        },
+        "price": {
+          "type": "number"
+        },
+        "size": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "time",
+        "price",
+        "size"
+      ]
+    },
+    "open": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "integer"
+        },
+        "price": {
+          "type": "number"
+        },
+        "size": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "time",
+        "price",
+        "size"
+      ]
+    },
+    "qualityId": {
+      "type": "string"
+    },
+    "leverage": {
+      "type": "null"
+    },
+    "delta": {
+      "type": "null"
+    }
+  },
+  "required": [
+    "bid",
+    "ask",
+    "last",
+    "pre",
+    "open",
+    "qualityId",
+    "leverage",
+    "delta"
+  ]
+}

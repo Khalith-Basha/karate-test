@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "type": {
+      "type": "ticker"
+    },
+    "id": {
+      "type": "DE000BASF113.LSX",
+      "description": "ISIN and exchange shortcode of the ticker"
+    }
+  }
+}

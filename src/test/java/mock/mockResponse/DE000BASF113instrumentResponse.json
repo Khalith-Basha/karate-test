@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "type": {
+      "type": "instrument"
+    },
+    "id": {
+      "type": "DE000BASF113",
+      "description": "ISIN and exchange shortcode of the ticker"
+    }
+  }
+}
