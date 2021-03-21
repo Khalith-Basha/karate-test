@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>karate-tutorial</artifactId>
+    <artifactId>karate-test</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,6 +54,12 @@
             <artifactId>jackson-core</artifactId>
             <version>2.12.0</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
 
 
     </dependencies>
@@ -88,32 +94,32 @@
     </build>
 
     <!-- A separate profile to run integration tests -->
-<!--    <profiles>-->
-<!--        <profile>-->
-<!--            <id>karate-integration-tests</id>-->
-<!--            <build>-->
-<!--                <testResources>-->
-<!--                    <testResource>-->
-<!--                        <directory>src/test/java</directory>-->
-<!--                        <excludes>-->
-<!--                            <exclude>**/*.java</exclude>-->
-<!--                        </excludes>-->
-<!--                    </testResource>-->
-<!--                </testResources>-->
-<!--                <plugins>-->
-<!--                    &lt;!&ndash; Plugin used to run integration tests &ndash;&gt;-->
-<!--                    <plugin>-->
-<!--                        <groupId>org.apache.maven.plugins</groupId>-->
-<!--                        <artifactId>maven-surefire-plugin</artifactId>-->
-<!--                        <version>2.19.1</version>-->
-<!--                        <configuration>-->
-<!--                            <includes>-->
-<!--                                <include>**/*TestParallel.java</include>-->
-<!--                            </includes>-->
-<!--                        </configuration>-->
-<!--                    </plugin>-->
-<!--                </plugins>-->
-<!--            </build>-->
-<!--        </profile>-->
-<!--    </profiles>-->
+    <profiles>
+        <profile>
+            <id>karate-integration-tests</id>
+            <build>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/java</directory>
+                        <excludes>
+                            <exclude>**/*.java</exclude>
+                        </excludes>
+                    </testResource>
+                </testResources>
+                <plugins>
+                    <!-- Plugin used to run integration tests -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.19</version>
+                        <configuration>
+                            <includes>
+                                <include>**/*TestParallel.java</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
